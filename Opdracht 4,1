@@ -1,8 +1,0 @@
-size(800,800);
-
-int a = 50;
-int b = 535;
-int c = 400;
-int d = 400;
-
-rect(a,b,c,d);
