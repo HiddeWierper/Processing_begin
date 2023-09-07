@@ -1,3 +1,5 @@
+
+size(600,600);
 int cijfer = 4;
 
 switch(cijfer) {
