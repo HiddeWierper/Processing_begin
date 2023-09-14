@@ -1,4 +1,4 @@
-int leeftijd = 18; 
+int leeftijd = 3; 
 
 switch(leeftijd){
   case 1:
@@ -8,10 +8,8 @@ switch(leeftijd){
   println("ik ben 2 jaar");
   break;  
   case 3:
-  println("ik ben 3 jaar");
-  break; 
   case 4:
-  println("ik ben 4 jaar");
+  println("ik ben 3 jaar");
   break;  
   case 5:
   println("ik ben 5 jaar");
