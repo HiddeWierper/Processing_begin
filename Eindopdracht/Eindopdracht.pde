@@ -1,4 +1,4 @@
-//galgje
+//galgje //<>// //<>// //<>// //<>// //<>// //<>//
 //Kamerverhuur
 //int f = max(12,3,564,575);
 
@@ -8,14 +8,17 @@ float yWaardeBird = 400;
 float valSnelheid;
 float zwaartekracht;
 boolean sprong = false;
-//boolean start = true;
-
+float x1WaardeLijn = 250;
+float y1WaardeLijn = 800;
+float x2WaardeLijn = 250;
+float y2WaardeLijn = 400;
 
 void setup() {
+  background(0) ;
   size(500, 800);
   background(0);
   fill(255, 0, 0);
-  frameRate(60);
+  frameRate(80);
 }
 
 void draw() {
@@ -32,9 +35,25 @@ void draw() {
     if (yWaardeBird > height - 10) {
       yWaardeBird = height - 10;
       valSnelheid = 0;
+      drawDeathMessage();
       resetBird();
     }
   }
+}
+
+void resetBackground() {
+  boolean reset = false;
+  if (reset) {
+    background(0);
+  }else if(!reset){
+  }
+}
+
+void drawDeathMessage() {
+  fill(255, 0, 0);
+  textSize(32);
+  textAlign(CENTER);
+  text("Je bent dood!", width / 2, height / 2);
 }
 
 void keyPressed() {
@@ -47,30 +66,24 @@ void keyPressed() {
   if (keyCode == ENTER) {
     resetBird();
   }
-  background(0);
 }
-
-
-
 
 void resetBird() {
   zwaartekracht = 0;
   yWaardeBird = 400;
   sprong = false;
   valSnelheid = 0;
+  drawDeathMessage();
+  println("je bent dood");
 }
 
 void checkBottom() {
   if (yWaardeBird >= height) {
-    background(0, 0, 255);
-    fill(255, 0, 0);
-    textSize(40); //<>//
-    text("You died", 230, 230); //<>//
-  } //<>//
+    drawDeathMessage();
+  }
 }
 
 void checkTop() {
   if (yWaardeBird <= 0) {
-    background(0, 0, 255);
   }
 }
