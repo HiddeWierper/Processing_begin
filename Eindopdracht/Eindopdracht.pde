@@ -5,7 +5,8 @@ float valSnelheid;
 float zwaartekracht;
 boolean sprong = false;
 float x1WaardeLijn = 400;
-float y1WaardeLijn = 200;
+float y1WaardeLijn = random(50, 600);
+;
 float x2WaardeLijn = 400;
 float y2WaardeLijn = 800;
 boolean resetBackground;
@@ -30,15 +31,14 @@ void draw() {
   makeLine();
   noStroke();
   ellipse(xWaardeBird, yWaardeBird, 20, 20);
-
-  if  (yWaardeBird <= y1WaardeLijn ){
-    }
-  else if (abs(xWaardeBird - x1WaardeLijn) <= 1 || abs(xWaardeBird - x2WaardeLijn) <= 1) {
+  if  (yWaardeBird <= y1WaardeLijn  ) {
+  } else if (abs(xWaardeBird - x1WaardeLijn) <= 1 || abs(xWaardeBird - x2WaardeLijn) <= 1) {
     drawDeathMessage();
     resetBackground = false;
     resetBird();
     resetLines();
   }
+ makeNewLine();  
 
   valSnelheid += zwaartekracht;
   yWaardeBird += valSnelheid;
@@ -61,7 +61,7 @@ void draw() {
     }
   }
 
-  if (birdActive){
+  if (birdActive) {
     x1WaardeLijn = x1WaardeLijn - 1;
     x2WaardeLijn = x2WaardeLijn - 1;
     zijwaartseKracht = 0.2;
@@ -70,13 +70,38 @@ void draw() {
 }
 
 void checkResetNeeded() {
-  if (resetBackground){
+  if (resetBackground) {
     background(0);
   } else if (!resetBackground) {
   }
 }
 
+void makeNewLine(){
+    for (float i = x1WaardeLijn + 200, j = x2WaardeLijn + 200; i <= 40000 && j <= 40000; i += 200, j += 200) {
+    resetBackground = true;
+
+    float y1WaardeLijn2 = random(100, 600);
+    float y2WaardeLijn2 = 800;
+    float x1WaardeLijn2 = i;
+    float x2WaardeLijn2 = j;
+
+    stroke(255, 0, 255);
+    line(i, y1WaardeLijn, j, y2WaardeLijn2);
+println(y1WaardeLijn2, y2WaardeLijn, x1WaardeLijn2, x2WaardeLijn2);
+    if (yWaardeBird >= y1WaardeLijn2 - 1 && yWaardeBird <= y2WaardeLijn2 + 1 && (xWaardeBird >= x1WaardeLijn2 - 1 && xWaardeBird <= x2WaardeLijn2 + 1)) {
+      // Voer de volgende code alleen uit als de bal de lijn raakt
+      drawDeathMessage();
+      resetBackground = false;
+      resetBird();
+      resetLines();
+    }
+  }
+
+}
+
 void drawDeathMessage() {
+  resetBird();
+  resetLines();
   fill(255, 0, 0);
   textSize(32);
   textAlign(CENTER);
@@ -105,21 +130,19 @@ void resetBird() {
   valSnelheid = 0;
 }
 
-void makeLine(){
+void makeLine() {
   resetBackground = false;
   stroke(255, 255, 255);
   line(x1WaardeLijn, y1WaardeLijn, x2WaardeLijn, y2WaardeLijn);
   resetBackground = true;
-
 }
 
 void resetLines() {
-  zijwaartseKracht = 0;
   x1WaardeLijn = 400;
+  y1WaardeLijn = random(50, 600);;
   x2WaardeLijn = 400;
-  lijnSnelheid = 0;
- }
-
+  y2WaardeLijn = 800;
+}
 
 void checkBottom() {
   if (yWaardeBird >= height) {
@@ -129,5 +152,6 @@ void checkBottom() {
 
 void checkTop() {
   if (yWaardeBird <= 0) {
+    drawDeathMessage();
   }
 }
