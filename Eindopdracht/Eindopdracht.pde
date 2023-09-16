@@ -76,27 +76,25 @@ void checkResetNeeded() {
   }
 }
 
-void makeNewLine(){
-    for (float i = x1WaardeLijn + 200, j = x2WaardeLijn + 200; i <= 40000 && j <= 40000; i += 200, j += 200) {
-    resetBackground = true;
-
-    float y1WaardeLijn2 = random(100, 600);
+void makeNewLine() {
+  for (float i = x1WaardeLijn + 200, j = x2WaardeLijn + 200; i <= 800 && j <= 800; i += 200, j += 200) {
+    float y1WaardeLijn2 = random(50, 600); // Genereer een nieuwe willekeurige waarde voor y1WaardeLijn2
     float y2WaardeLijn2 = 800;
     float x1WaardeLijn2 = i;
     float x2WaardeLijn2 = j;
-
+    
     stroke(255, 0, 255);
-    line(i, y1WaardeLijn, j, y2WaardeLijn2);
-println(y1WaardeLijn2, y2WaardeLijn, x1WaardeLijn2, x2WaardeLijn2);
+    line(i, y1WaardeLijn2, j, y2WaardeLijn2);
+    
+    println(i, y1WaardeLijn2, j, y2WaardeLijn2);
+    
     if (yWaardeBird >= y1WaardeLijn2 - 1 && yWaardeBird <= y2WaardeLijn2 + 1 && (xWaardeBird >= x1WaardeLijn2 - 1 && xWaardeBird <= x2WaardeLijn2 + 1)) {
       // Voer de volgende code alleen uit als de bal de lijn raakt
       drawDeathMessage();
-      resetBackground = false;
       resetBird();
       resetLines();
     }
   }
-
 }
 
 void drawDeathMessage() {
