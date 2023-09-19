@@ -5,8 +5,7 @@ float valSnelheid;
 float zwaartekracht;
 boolean sprong = false;
 float x1WaardeLijn = 400;
-float y1WaardeLijn = random(50, 600);
-;
+float y1WaardeLijn = random(50, 600);;
 float x2WaardeLijn = 400;
 float y2WaardeLijn = 800;
 boolean resetBackground;
@@ -30,6 +29,7 @@ void draw() {
   checkBottom();
   makeLine();
   noStroke();
+   makeNewLine();
   ellipse(xWaardeBird, yWaardeBird, 20, 20);
   if  (yWaardeBird <= y1WaardeLijn  ) {
   } else if (abs(xWaardeBird - x1WaardeLijn) <= 1 || abs(xWaardeBird - x2WaardeLijn) <= 1) {
@@ -37,8 +37,7 @@ void draw() {
     resetBackground = false;
     resetBird();
     resetLines();
-  }
- makeNewLine();  
+  }  
 
   valSnelheid += zwaartekracht;
   yWaardeBird += valSnelheid;
@@ -88,6 +87,8 @@ void makeNewLine(){
     float x2WaardeLijn2 = j;
 
   
+    stroke(255,0,255);
+    line(i, y1WaardeLijn2, j, y2WaardeLijn2);
 
     if (yWaardeBird >= y1WaardeLijn2 - 1 && yWaardeBird <= y2WaardeLijn2 + 1 && (xWaardeBird >= x1WaardeLijn2 - 1 && xWaardeBird <= x2WaardeLijn2 + 1)) {
       drawDeathMessage();
@@ -95,7 +96,6 @@ void makeNewLine(){
       resetBird();
       resetLines();
     }
-    drawNewLine();
   }
 }
 
