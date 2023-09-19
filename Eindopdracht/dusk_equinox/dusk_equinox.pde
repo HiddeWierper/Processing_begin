@@ -103,7 +103,7 @@ void checkResetNeeded() {
     background(0);
   } else if (!resetBackground) {
   }
-}
+} 
 
 
 void drawDeathMessage() {
