@@ -25,6 +25,7 @@ boolean birdActive = false;
 float lijnSnelheid;
 float zijwaartseKracht;
 int score = 0;
+int highScore = 0;
 PImage bg;
 PImage birdImg;
 float vogelHoek = 0; 
@@ -52,14 +53,16 @@ void draw() {
   score();
   setLineSpeed();
   noStroke();
-  
   pushMatrix(); 
-  
   translate(xWaardeBird, yWaardeBird);
   rotate(radians(vogelHoek));
   image(birdImg, -birdImg.width/2, -birdImg.height/2); 
-  
   popMatrix();
+
+  textSize(45);
+  text(score, width / 2, 50);
+  textSize(24);
+  text("HighScore " + highScore ,350, 40);
 
   valSnelheid += zwaartekracht;
   yWaardeBird += valSnelheid;
@@ -132,7 +135,7 @@ void setLineSpeed(){
     lijnSnelheid = -1;
   }
   if (score >= 300){
-    zijwaartseKracht = - 0.4;
+    zijwaartseKracht = - 1;
     lijnSnelheid = -1;
     
   }else if (score >= 400){
@@ -206,29 +209,25 @@ void line4Needed(){
 }
   
 void checkIfDead(){
-     if (yWaardeBird >= y1WaardeLijn - 1 && yWaardeBird <= y2WaardeLijn + 1 && (xWaardeBird >= x1WaardeLijn - 1 && xWaardeBird <= x2WaardeLijn + 1)) {
+  if (yWaardeBird >= y1WaardeLijn - 1 && yWaardeBird <= y2WaardeLijn + 1 && (xWaardeBird >= x1WaardeLijn - 1 && xWaardeBird <= x2WaardeLijn + 1)) {
+    resetBackground = true;
     drawDeathMessage();
-    resetScore();
-    resetBackground = false;
     resetBird();
     resetLines();
   }
   if (yWaardeBird >= y1WaardeLijn2 - 1 && yWaardeBird <= y2WaardeLijn2 + 1 && (xWaardeBird >= x1WaardeLijn2 - 1 && xWaardeBird <= x2WaardeLijn2 + 1)) {
     drawDeathMessage();
-    resetScore();
     resetBird();
     resetLines();
   }
   if (yWaardeBird >= y1WaardeLijn3 - 1 && yWaardeBird <= y2WaardeLijn3 + 1 && (xWaardeBird >= x1WaardeLijn3 - 1 && xWaardeBird <= x2WaardeLijn3 + 1)) {
     drawDeathMessage();
-    resetScore();
     resetBackground = false;
     resetBird();
     resetLines();
   }  
   if (yWaardeBird >= y1WaardeLijn4 - 1 && yWaardeBird <= y2WaardeLijn4 + 1 && (xWaardeBird >= x1WaardeLijn4 - 1 && xWaardeBird <= x2WaardeLijn4 + 1)) {
     drawDeathMessage();
-    resetScore();
     resetBackground = false;
     resetBird();
     resetLines();
@@ -238,12 +237,13 @@ void checkIfDead(){
 void drawDeathMessage() {
   birdActive = false;
   resetBackground = true;
-    noLoop();
+  noLoop();
   fill(255, 0, 0);
   textSize(32);
   textAlign(CENTER);
   text("Je bent dood!", width / 2, height / 2);
-  text("Klik een knop om opnieuw te starten", width / 2, 450);
+  text("Je score was: " + score, width /2, 450);
+  text("Klik een knop om opnieuw te starten", width / 2, 500);
 }
 
 void keyPressed() {
@@ -329,9 +329,10 @@ void score() {
   if (abs(xWaardeBird - x1WaardeLijn4) <= 1) {
     score++;
   }
-  
-  textSize(45);
-  text(score, width / 2, 50);
+
+  if (score >= highScore){
+    highScore = score;
+  }
 }
 
 void checkBottom() {
@@ -341,7 +342,6 @@ void checkBottom() {
     noLoop();
     resetLines();
     resetBird();
-    resetScore();
   }
 }
 
@@ -352,6 +352,5 @@ void checkTop() {
     noLoop();
     resetLines();
     resetBird();
-    resetScore();
   }
 }
