@@ -25,13 +25,18 @@ boolean birdActive = false;
 float lijnSnelheid;
 float zijwaartseKracht;
 int score = 0;
-
-
+PImage bg;
+PImage birdImg;
+float vogelHoek = 0; 
 
 void setup() {
-  background(0);
+  bg = loadImage("https://i.imgur.com/MfvWKcv.jpg");;
+  bg.resize(500,800);
+  birdImg = loadImage("https://i.imgur.com/G8hIsmO.png");
+  birdImg.resize(60, 40);
+  background(bg);
   size(500, 800);
-  background(0);
+  background(bg);
   fill(255, 0, 0);
   frameRate(80);
 }
@@ -45,8 +50,16 @@ void draw() {
   makeLine();
   checkIfLineNeeded();
   score();
+  setLineSpeed();
   noStroke();
-  ellipse(xWaardeBird, yWaardeBird, 20, 20);
+  
+  pushMatrix(); 
+  
+  translate(xWaardeBird, yWaardeBird);
+  rotate(radians(vogelHoek));
+  image(birdImg, -birdImg.width/2, -birdImg.height/2); 
+  
+  popMatrix();
 
   valSnelheid += zwaartekracht;
   yWaardeBird += valSnelheid;
@@ -60,6 +73,7 @@ void draw() {
   x2WaardeLijn3 += lijnSnelheid;
   x1WaardeLijn4 += lijnSnelheid;
   x2WaardeLijn4 += lijnSnelheid;
+
 
   if (!sprong) {
     if (yWaardeBird > height - 10 ) {
@@ -100,22 +114,49 @@ void draw() {
   }
 }
 
+void setLineSpeed(){
+  if (score >= 50){
+    zijwaartseKracht = - 0.4;
+    lijnSnelheid = -1;
+  }
+  if (score >= 100){
+    zijwaartseKracht = - 0.6;
+    lijnSnelheid = -1;
+  }
+  if (score >= 150){
+    zijwaartseKracht = -0.7;
+    lijnSnelheid = -1;
+  }
+  if (score >= 200){
+    zijwaartseKracht = - 0.8;
+    lijnSnelheid = -1;
+  }
+  if (score >= 300){
+    zijwaartseKracht = - 0.4;
+    lijnSnelheid = -1;
+    
+  }else if (score >= 400){
+    zijwaartseKracht = zijwaartseKracht - 0.000001;
+  }
+}
+
 void makeLine() {
   resetBackground = false;
-  stroke(255, 0, 255);
+  strokeWeight(15);
+  stroke(0, 255, 0);
   line(x1WaardeLijn, y1WaardeLijn, x2WaardeLijn, y2WaardeLijn);
   resetBackground = true;
-  stroke(255,0,255);
+  stroke(0, 255, 0);
   line(x1WaardeLijn2, y1WaardeLijn2, x1WaardeLijn2, y2WaardeLijn2);
-  stroke(255,0,255);
+  stroke(0, 255, 0);
   line(x1WaardeLijn3, y1WaardeLijn3, x1WaardeLijn3, y2WaardeLijn3);
-  stroke(255,0,255);
+  stroke(0, 255, 0);
   line(x1WaardeLijn4, y1WaardeLijn4, x1WaardeLijn4, y2WaardeLijn4);
 }
 
 void checkResetNeeded() {
   if (resetBackground) {
-    background(0);
+    background(bg);
   } else if (!resetBackground) {
   }
 }
@@ -131,11 +172,12 @@ void checkIfLineNeeded(){
     line4Needed();
   }
 }
+
 void lineNeeded(){
   stroke(255,0,255);
   x1WaardeLijn = 650;
   x2WaardeLijn = 650;
-  y1WaardeLijn = random(50,600);;
+  y1WaardeLijn = random(100,600);;
   line(x1WaardeLijn,y1WaardeLijn,x2WaardeLijn, y2WaardeLijn);
 }
 
@@ -143,7 +185,7 @@ void line2Needed(){
   stroke(255,0,255);
   x1WaardeLijn2 = 650;
   x2WaardeLijn2 = 650;
-  y1WaardeLijn2 = random(50,600);;
+  y1WaardeLijn2 = random(100,600);;
   line(x1WaardeLijn2,y1WaardeLijn2,x2WaardeLijn2, y2WaardeLijn2);
 }
 
@@ -151,14 +193,15 @@ void line3Needed(){
   stroke(255,0,255);
   x1WaardeLijn3 = 650;
   x2WaardeLijn3 = 650;
-  y1WaardeLijn3 = random(50,600);;
+  y1WaardeLijn3 = random(100,600);;
   line(x1WaardeLijn3,y1WaardeLijn3,x2WaardeLijn3, y2WaardeLijn3);
 }
+
 void line4Needed(){
   stroke(255,0,255);
   x1WaardeLijn4 = 650;
   x2WaardeLijn4 = 650;
-  y1WaardeLijn4 = random(50,600);;
+  y1WaardeLijn4 = random(100,600);;
   line(x1WaardeLijn4,y1WaardeLijn4,x2WaardeLijn4, y2WaardeLijn4);
 }
   
@@ -195,15 +238,17 @@ void checkIfDead(){
 void drawDeathMessage() {
   birdActive = false;
   resetBackground = true;
+    noLoop();
   fill(255, 0, 0);
   textSize(32);
   textAlign(CENTER);
   text("Je bent dood!", width / 2, height / 2);
-  text("Klik ENTER om opnieuw te starten", width / 2, 410);
+  text("Klik een knop om opnieuw te starten", width / 2, 450);
 }
 
 void keyPressed() {
   if (keyCode == 32) {
+    vogelHoek = 315;
     yWaardeBird = yWaardeBird - 20;
     sprong = true;
     zwaartekracht = 0.2;
@@ -212,10 +257,33 @@ void keyPressed() {
   }
   if (keyCode == ENTER) {
     birdActive = false;
+    redraw();
+    loop();
     resetLines();
     resetBird();
     resetScore();
   }
+  if (keyPressed){
+    redraw();
+    loop();
+  }
+}
+
+void keyReleased() {
+  vogelHoek = 0;
+}
+
+void touchStarted(){
+    vogelHoek = 315;
+    yWaardeBird = yWaardeBird - 20;
+    sprong = true;
+    zwaartekracht = 0.2;
+    valSnelheid = -5;
+    birdActive = true;
+}
+
+void touchEnded(){
+  vogelHoek = 0;
 }
 
 void resetBird() {
@@ -269,15 +337,21 @@ void score() {
 void checkBottom() {
   if (yWaardeBird >= height) {
     drawDeathMessage();
-    resetBird();
     birdActive = false;
+    noLoop();
+    resetLines();
+    resetBird();
+    resetScore();
   }
 }
 
 void checkTop() {
   if (yWaardeBird <= 0) {
     drawDeathMessage();
-    resetBird();
     birdActive = false;
+    noLoop();
+    resetLines();
+    resetBird();
+    resetScore();
   }
 }
