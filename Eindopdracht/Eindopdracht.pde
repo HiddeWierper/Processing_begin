@@ -31,9 +31,9 @@ PImage birdImg;
 float vogelHoek = 0; 
 
 void setup() {
-  bg = loadImage("https://i.imgur.com/MfvWKcv.jpg");;
+  bg = loadImage("jemoer.jpg");;
   bg.resize(500,800);
-  birdImg = loadImage("https://i.imgur.com/G8hIsmO.png");
+  birdImg = loadImage("flappy.png");
   birdImg.resize(60, 40);
   background(bg);
   size(500, 800);
@@ -61,9 +61,7 @@ void draw() {
   popMatrix();
 
   textSize(45);
-  text(score, width / 2, 50);
-  textSize(24);
-  text("HighScore " + highScore ,350, 40);
+  text(score + "/" + highScore, width / 2, 50 );
 
   valSnelheid += zwaartekracht;
   yWaardeBird += valSnelheid;
