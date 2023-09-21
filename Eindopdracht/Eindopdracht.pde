@@ -43,6 +43,7 @@ void setup() {
 }
 
 void draw() {
+
   resetBackground = true;
   checkResetNeeded();
   checkIfDead();
@@ -92,6 +93,7 @@ void draw() {
     }
   }
 
+
   if (birdActive) {
     x1WaardeLijn = x1WaardeLijn - 1;
     x2WaardeLijn = x2WaardeLijn - 1;
@@ -103,6 +105,7 @@ void draw() {
     x2WaardeLijn4 = x2WaardeLijn4 - 1;
     zijwaartseKracht = 0.2;
     lijnSnelheid = -1;
+    
   }else if(!birdActive){
     x1WaardeLijn = x1WaardeLijn;
     x2WaardeLijn = x2WaardeLijn;
@@ -243,7 +246,7 @@ void drawDeathMessage() {
   textAlign(CENTER);
   text("Je bent dood!", width / 2, height / 2);
   text("Je score was: " + score, width /2, 450);
-  text("Klik een knop om opnieuw te starten", width / 2, 500);
+  text("Klik op ENTER om opnieuw te starten", width / 2, 500);
 }
 
 void keyPressed() {
@@ -262,10 +265,6 @@ void keyPressed() {
     resetLines();
     resetBird();
     resetScore();
-  }
-  if (keyPressed){
-    redraw();
-    loop();
   }
 }
 
@@ -352,5 +351,6 @@ void checkTop() {
     noLoop();
     resetLines();
     resetBird();
+
   }
 }
